@@ -3,9 +3,9 @@
 #include "TankAIController.h"
 #include "GameFramework/Actor.h"
 
-APawn* ATankAIController::GetPossessedAITank() const
+ATank* ATankAIController::GetPossessedAITank() const
 {
-	return GetPawn();
+	return Cast<ATank>(GetPawn());
 }
 
 ATank* ATankAIController::GetPlayerController() const
@@ -28,5 +28,19 @@ void ATankAIController::BeginPlay()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("The player controller is %s"), *PlayerController->GetName())
+	}
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (GetPlayerController())
+	{
+		// TODO move towards player
+
+		// Aim towards playeer
+		GetPossessedAITank()->AimAt(GetPlayerController()->GetActorLocation());
+			// Fire at player
 	}
 }
