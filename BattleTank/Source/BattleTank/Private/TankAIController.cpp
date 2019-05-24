@@ -2,6 +2,7 @@
 
 #include "TankAIController.h"
 #include "GameFramework/Actor.h"
+#include "Tank.h"
 
 ATank* ATankAIController::GetPossessedAITank() const
 {
