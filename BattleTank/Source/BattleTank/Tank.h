@@ -8,6 +8,7 @@
 
 class UTankAimingComponent; // Forward declaration
 class UTankBarrel;
+class UActualTankTurret;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -19,6 +20,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Startup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Startup)
+	void SetTurretReference(UActualTankTurret* TankTurret);
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
@@ -34,6 +38,6 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 1000000.0;
+	float LaunchSpeed = 4000.0;
 	
 };
