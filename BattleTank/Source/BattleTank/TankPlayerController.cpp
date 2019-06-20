@@ -10,15 +10,6 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	ATank* PossessedTank = GetControlledTank();
-	if (GetControlledTank())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("The possessed tank is %s"), *PossessedTank->GetName())
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GetControlledTank isn't returning anything"))
-	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
