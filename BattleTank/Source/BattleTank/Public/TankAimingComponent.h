@@ -6,6 +6,14 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+UENUM()
+enum class EFiringStatus : uint8
+{
+	Reloading,
+	Locked,
+	Aiming
+};
+
 class UTankBarrel; // Forward declaration
 class UActualTankTurret;
 
@@ -23,6 +31,11 @@ public:
 	void SetTurretReference(UActualTankTurret* TurretToSet);
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
+
+protected:
+	//This is how we declare a variable that has a value from the enum that we created.
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringStatus = EFiringStatus::Aiming;
 
 private:
 
