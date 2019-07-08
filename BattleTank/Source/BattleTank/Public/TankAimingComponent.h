@@ -23,21 +23,20 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
-	UTankAimingComponent();
-
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	void SetTurretReference(UActualTankTurret* TurretToSet);
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialize(UTankBarrel* BarrelToSet, UActualTankTurret* TurretToSet);
 
 protected:
 	//This is how we declare a variable that has a value from the enum that we created.
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Aiming;
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
 private:
+	// Sets default values for this component's properties
+	UTankAimingComponent();
 
 	UTankBarrel* Barrel = nullptr;
 	UActualTankTurret* TankTurret = nullptr;
