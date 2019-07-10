@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "TankBarrel.h"
 #include "ActualTankTurret.h"
+#include "Projectile.h"
 #include "Components/StaticMeshComponent.h"
 
 
@@ -24,7 +25,7 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UActualTankTurre
 	TankTurret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) { return; }
 
@@ -46,4 +47,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	Barrel->Elevate(DeltaRotator.Pitch);
 	TankTurret->RotateTurret(DeltaRotator.Yaw);
+}
+
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+
+	if (IsReloaded)
+	{
+		auto BarrelSocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
+		auto BarrelSocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, BarrelSocketLocation, BarrelSocketRotation);
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }

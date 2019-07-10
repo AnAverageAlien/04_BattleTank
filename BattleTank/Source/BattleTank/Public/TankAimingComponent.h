@@ -16,6 +16,7 @@ enum class EFiringStatus : uint8
 
 class UTankBarrel; // Forward declaration
 class UActualTankTurret;
+class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -24,10 +25,13 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 
 public:	
 
-	void AimAt(FVector HitLocation, float LaunchSpeed);
+	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UActualTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 
 protected:
 	//This is how we declare a variable that has a value from the enum that we created.
@@ -38,7 +42,19 @@ private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed = 4000.0;
+
 	UTankBarrel* Barrel = nullptr;
 	UActualTankTurret* TankTurret = nullptr;
+
 	void MoveBarrelTowards(FVector AimDirection);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Startup")
+		TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float ReloadTimeInSeconds = 3;
+
+	double LastFireTime = 0;
 };
