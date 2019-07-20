@@ -21,4 +21,21 @@ public:
 	//The force in Newtons applied to a single track
 	UPROPERTY(EditDefaultsOnly)
 		float TrackMaxDrivingForce = 400000;
+
+protected:
+	virtual void OnRegister() override;
+
+private:
+	virtual void BeginPlay() override;
+
+	UTankTrack();
+
+	void ApplySidewaysForce();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent *HitComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	void DriveTrack();
+
+	float CurrentThrottle = 0;
 };
