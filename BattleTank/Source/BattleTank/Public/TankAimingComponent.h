@@ -11,7 +11,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Locked,
-	Aiming
+	Aiming,
+	NoAmmo
 };
 
 class UTankBarrel; // Forward declaration
@@ -32,6 +33,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
+
+	EFiringStatus GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	int GetAmmoLeft() const;
 
 protected:
 	//This is how we declare a variable that has a value from the enum that we created.
@@ -64,4 +70,6 @@ private:
 	double LastFireTime = 0;
 
 	FVector AimDirection;
+
+	int Ammo = 3;
 };

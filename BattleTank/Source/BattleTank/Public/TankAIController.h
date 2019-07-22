@@ -19,8 +19,11 @@ public:
 
 	void Tick(float DeltaTime) override;
 
+protected:
+	// How close the AI can get to the player in centimeters
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float AcceptanceRadius = 8000;
+
 private:
 
-	// How close the AI can get to the player in centimeters
-	float AcceptanceRadius = 3000;
 };

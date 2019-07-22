@@ -28,7 +28,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; // OUT parameter
-	if (GetSightRayHitLocation(HitLocation))
+	bool HasHitLocation = GetSightRayHitLocation(HitLocation);
+	if (HasHitLocation)
 	{
 		AimingComponent->AimAt(HitLocation);
 	}
@@ -44,10 +45,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		GetLookVectorHitLocation(LookDirection, HitLocation);
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 
-	return true;
+	return false;
 }
 
 // Getting the direction we're looking at as a unit vector. We're doing this because we need it to calculate the end point of the vector that
